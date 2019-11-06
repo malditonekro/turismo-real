@@ -1,0 +1,31 @@
+.filter {
+  max-width: 70%;
+  margin: 0 auto 50px;
+  padding: 15px 25px;
+    border: 1px solid #ccc;
+
+  .filterForm {
+    display: flex;
+    justify-content: space-between;
+
+    .filterFieldDiv {
+      font-size: 20px;
+      display: inline-block;
+      width: 23%;
+    }
+  }
+ 
+  .submitButton {
+    width: 260px;
+    margin: 40px auto 15px;
+    display: block;
+    font-size: 20px;
+  }
+}
+
+.inputError {
+    color: #c52433;
+    font-size: 14px;
+    line-height: 1;
+    margin-top: 3px;
+}

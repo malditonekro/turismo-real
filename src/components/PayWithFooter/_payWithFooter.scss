@@ -1,0 +1,22 @@
+.payWithFooter {
+  margin-top: 50px;
+  height: 90px;
+  background: #d4edda;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+
+  .title {
+      display: inline-block;
+      margin-right: 25px;
+      font-weight: bold;
+  }
+
+  .bankImages {
+    img {
+      height: 60px;
+      margin-right: 10px;
+    }
+  }
+}
