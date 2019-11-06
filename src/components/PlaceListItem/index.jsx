@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
+import Calendar  from '../Calendar/Calendar';
+
 export default class PlaceListItemComponent extends Component {
 
   render() {
@@ -35,6 +37,9 @@ export default class PlaceListItemComponent extends Component {
             onClick={e => e.stopPropagation()}>
             Ver Detalle
           </NavLink>
+        </div>
+        <div>
+          <Calendar />
         </div>
       </div>
     );
