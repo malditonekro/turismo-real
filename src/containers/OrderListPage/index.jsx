@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import { DebugUtil } from '../../utils/js';
 
-export default class HomePage extends Component {
+export default class OrderListPage extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <div className="homePage">
-        <header className="header_e">
-          Order List Page
-        </header>
+      <div className="orderListPage">
+        Order List Page
       </div>
     );
   }

@@ -33,14 +33,21 @@ export default class HeaderComponent extends Component {
     return (<div className="navButtons">
       { this.getLink('/home', 'Arriendos', 'navButton nav-item nav-link', 'fa fa-home', true) }
       { this.getLink('/tours', 'Tours', 'navButton nav-item nav-link', 'fa fa-map-marked-alt', true) }
-      { this.getLink('/order-list', 'Historial', 'navButton nav-item nav-link', 'fa fa-history', true) }
+      { this.getLink('/transports', 'Transportes', 'navButton nav-item nav-link', 'fa fa-history', true) }
     </div>);
   }
 
-  renderAuthButtons = () => {
-    return (<div className="authButtons">
-      { this.getLink('/sign-in', 'Iniciar Sesión', 'authButton signInBtn btn btn-info', 'fa fa-user') }
-      { this.getLink('/sign-up', 'Registrarse', 'authButton signUpBtn btn btn-info', 'fa fa-edit') }
+  showAuthButtons = () => {
+    if(sessionStorage && sessionStorage.getItem('auth')) {
+      return false;
+    }
+    return true;
+  }
+
+  renderLeftButtons = () => {
+    return (<div className="leftButtons">
+      { this.showAuthButtons() && this.getLink('/auth', 'Iniciar Sesión', 'leftButton signInBtn btn btn-info', 'fa fa-user') }
+      { this.getLink('/order-list', 'Mis Viajes', 'leftButton orderListBtn btn btn-info', 'fa fa-history') }
     </div>);
   }
 
@@ -50,7 +57,7 @@ export default class HeaderComponent extends Component {
         <div className="header">
           { this.renderLogo() }
           { this.renderNavButtons() }
-          { this.renderAuthButtons() }
+          { this.renderLeftButtons() }
         </div>
       </header>
     );

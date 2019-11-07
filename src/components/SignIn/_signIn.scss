@@ -1,0 +1,55 @@
+.signIn {
+  max-width: 50%;
+  margin: 50px auto 50px;
+  padding: 15px 25px;
+  border: 1px solid #ccc;
+  text-align: center;
+
+
+  .signInForm {
+    margin: 40px auto;
+    text-align: initial;
+    width: 70%;
+
+    .signInFieldDiv {
+      margin: 0 auto 15px;
+      font-size: 20px;
+      display: flex;
+      width: 100%;
+
+      label {
+        margin-bottom: 0px;
+        min-width: 250px;
+      }
+
+      .input {
+        width: 100%;
+      }
+    }
+  }
+ 
+  .submitButton {
+    width: 260px;
+    margin: 10px auto 15px;
+    display: block;
+    font-size: 20px;
+  }
+
+  .signUpButton {
+    margin: 0 auto 15px;
+    display: block;
+
+    &:hover {
+      cursor: pointer;
+      color: #007bff !important;
+      text-decoration: underline !important;
+    }
+  }
+}
+
+.inputError {
+    color: #c52433;
+    font-size: 14px;
+    line-height: 1;
+    margin-top: 3px;
+}

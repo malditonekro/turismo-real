@@ -1,0 +1,90 @@
+.signUp {
+  max-width: 50%;
+  margin: 50px auto 50px;
+  padding: 15px 25px;
+  border: 1px solid #ccc;
+  text-align: center;
+
+
+  .signUpForm {
+    margin: 40px auto;
+    text-align: initial;
+    width: 70%;
+
+    .signUpFieldDiv {
+      margin: 0 auto 15px;
+      font-size: 20px;
+      display: flex;
+      width: 100%;
+
+      label {
+        margin-bottom: 0px;
+        min-width: 250px;
+      }
+
+      .genderRadioButton {
+        display: flex;
+
+        label {
+          min-width: unset;
+          display: flex;
+          margin-right: 30px;
+          font-size: 1.1rem;
+
+          input {
+            margin-right: 8px;
+            margin-top: 3px;
+          }
+        }
+      }
+
+      .input {
+        width: 100%;
+      }
+
+      .form-control {
+        display: inline-block;
+      }
+    }
+
+    .birthdate {
+      .input {
+        .inputInner {
+          display: flex;
+          justify-content: space-between;
+        }
+        #birthdateDay, #birthdateYear {
+          max-width: 24%;
+        }
+
+        #birthdateMonth {
+          max-width: 34%;
+        }
+      }
+    }
+  }
+ 
+  .submitButton {
+    width: 260px;
+    margin: 10px auto 15px;
+    display: block;
+    font-size: 20px;
+  }
+
+  .signInButton {
+    margin: 0 auto;
+
+    &:hover {
+      cursor: pointer;
+      color: #007bff !important;
+      text-decoration: underline !important;
+    }
+  }
+}
+
+.inputError {
+    color: #c52433;
+    font-size: 14px;
+    line-height: 1;
+    margin-top: 3px;
+}

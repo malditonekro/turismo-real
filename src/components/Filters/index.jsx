@@ -59,8 +59,7 @@ export default class FilterComponent extends Component {
       touched,
       handleBlur,
       handleChange,
-      handleSubmit,
-      isSubmitting
+      handleSubmit
     }) => {
 
     const buttonClass = classNames({
@@ -76,7 +75,7 @@ export default class FilterComponent extends Component {
           <div className="destiny filterFieldDiv">
             <label htmlFor="destiny">Destino</label>
             <select className="form-control" name="destiny" id="destiny" disabled={this.state.cities.length==0} onChange={handleChange} onBlur={handleBlur}>
-              <option>Seleccione</option>
+              <option value=''>Seleccione</option>
               {this.state.cities.length > 0 && this.getCitiesOptions()}
             </select>
             {this.getErrorMessage(touched.destiny, errors.destiny)}
@@ -117,14 +116,20 @@ export default class FilterComponent extends Component {
             </select>
           </div>
         </div>
-        <button type="submit" disabled={isSubmitting} className={buttonClass}><i className="fa fa-search-location"/> Buscar</button>
+        <button type="submit" disabled={this.state.submitting} className={buttonClass}><i className="fa fa-search-location"/> Buscar</button>
       </form>
     );
 }
 
   handleSubmit = (values) => {
     log('handleSubmit', values);
+    this.setState({
+      submitting: true
+    });
     setTimeout(()=>{
+      this.setState({
+        submitting: false
+      });
       const val = [
         {
           "idDepartamento": 2,
