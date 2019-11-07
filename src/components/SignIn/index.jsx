@@ -136,13 +136,13 @@ export default class SignInComponent extends Component {
         submitting: false
       });
     }).catch((error) => {
-      log('handleSubmit', error);
-      sessionStorage.setItem('auth', values.email);
-      this.props.history && this.props.history.push('/home');
       this.setState({
         displayAlert: true,
         submitting: false
       });
+      log('handleSubmit', error);
+      sessionStorage.setItem('auth', values.email);
+      this.props.history && this.props.history.push('/home');
     });
   }
 
@@ -171,7 +171,7 @@ export default class SignInComponent extends Component {
         <h3>Inicio de sesión</h3>
         { this.renderForm() }
         <a href="#" className="signUpButton" onClick={this.handleSwitchView}>Registrate</a>
-        { this.state.displayAlert && <AlertComponent level={3} handleHideAlert={this.hideAlert} /> }
+        { this.state.displayAlert && <AlertComponent level={4} handleHideAlert={this.hideAlert} /> }
       </div>
     );
   }

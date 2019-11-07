@@ -34,6 +34,7 @@ export default class AlertComponent extends Component {
       alertComponent: true,
       level1: this.props.level == 1,
       level2: this.props.level == 2,
+      level4: this.props.level == 4,
       level3: this.props.level == 3,
       open: this.state.open,
       closing: this.state.closing
@@ -53,6 +54,6 @@ export default class AlertComponent extends Component {
 AlertComponent.defaultProps = {
   title: 'Error inesperado',
   message: 'Ha ocurrido un error interno, por favor intente nuevamente mas tarde.',
-  level: 1,
+  level: 4,
   handleHideAlert: () => {}
 };
