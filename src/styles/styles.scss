@@ -4,6 +4,10 @@
 @import '../components/PayWithFooter/payWithFooter';
 @import '../components/PlaceList/placeList';
 @import '../components/PlaceListItem/placeListItem';
+@import '../components/Auth/auth';
+@import '../components/SignIn/signIn';
+@import '../components/SignUp/signUp';
+@import '../components/Alert/alert';
 
 
 /** Containers **/
@@ -11,6 +15,7 @@
 @import '../containers/OrderListPage/orderListPage';
 @import '../containers/PaymentPage/paymentPage';
 @import '../containers/DetailPage/detailPage';
+@import '../containers/AuthPage/authPage';
 
 body {
   margin: 0;

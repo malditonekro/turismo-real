@@ -1,0 +1,44 @@
+.alertComponent {
+  transform-origin: 0 100%;
+  width: 70%;
+  margin-right: auto;
+  margin-left: auto;
+  border-radius: 5px;
+  padding: 5px 15px;
+  // position: absolute;
+  transition: transform 0.5s;
+  transform: scaleY(0);
+
+  h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0;
+  }
+}
+
+.level {
+  &1 {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+  }
+
+  &2 {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+  }
+
+  &3 {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+  }
+}
+
+.open {
+  transform: scaleY(1);
+}
+
+.closing {
+  transform: scaleY(0);
+}
