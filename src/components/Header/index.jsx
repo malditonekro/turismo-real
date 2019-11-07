@@ -42,12 +42,24 @@ export default class HeaderComponent extends Component {
       return false;
     }
     return true;
-  }
+  };
+
+  unlog = () => {
+    if(sessionStorage) {
+      sessionStorage.removeItem('auth');
+      window.location.replace('/home');
+    }
+  };
+
+  getUnlogButton = () => (
+    <a href="#" onClick={this.unlog} className="unlogButton ">Cerrar sesión</a>
+  );
 
   renderLeftButtons = () => {
     return (<div className="leftButtons">
       { this.showAuthButtons() && this.getLink('/auth', 'Iniciar Sesión', 'leftButton signInBtn btn btn-info', 'fa fa-user') }
       { this.getLink('/order-list', 'Mis Viajes', 'leftButton orderListBtn btn btn-info', 'fa fa-history') }
+      { !this.showAuthButtons() && this.getUnlogButton() }
     </div>);
   }
 

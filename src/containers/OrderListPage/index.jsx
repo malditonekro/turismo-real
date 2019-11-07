@@ -6,6 +6,16 @@ export default class OrderListPage extends Component {
     super(props);
   }
 
+  componentWillMount = () => {
+    this.validateAuth();
+  };
+
+  validateAuth = () => {
+    if(sessionStorage && !sessionStorage.getItem('auth')) {
+      this.props.history.push('/auth');
+    }
+  };
+
   render() {
     return (
       <div className="orderListPage">

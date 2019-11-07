@@ -11,20 +11,31 @@ export default class AlertComponent extends Component {
       open: false,
       closing: false
     }
+    this.openTimeOut = null;
+    this.hideTimeOut = null;
+    this.closeTimeOut = null;
+  }
+
+  componentWillUnmount = () => {
+    clearTimeout(this.openTimeOut);
+    clearTimeout(this.hideTimeOut);
+    clearTimeout(this.closeTimeOut);
   }
 
   componentDidMount = () => {
-    setTimeout(()=>{
+    this.openTimeOut = setTimeout(()=>{
       this.setState({
         open: true
       });
-    }, 100)
-    setTimeout(()=>{
+    }, 100);
+
+    this.hideTimeOut = setTimeout(()=>{
       this.setState({
         closing: true
       });
-    }, 3000)
-    setTimeout(()=>{
+    }, 3000);
+
+    this.closeTimeOut = setTimeout(()=>{
       this.props.handleHideAlert();
     }, 3400)
   };
