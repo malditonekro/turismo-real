@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import classNames from 'classnames';
 import { DebugUtil } from '../../utils/js';
 import AlertComponent from '../Alert';
+import { declareExportDeclaration, declareExportAllDeclaration } from '@babel/types';
 
 const log = DebugUtil.log.bind(DebugUtil, 'SignInComponent /> ');
 
@@ -11,31 +12,11 @@ export default class SignInComponent extends Component {
     super(props);
     this.state = {
       displayAlert: false,
+      displayAlertTitle: '',
+      displayAlertMessage: '',
       submitting: false
     }
     this.hideAlert = this.hideAlert.bind(this);
-  }
-
-  fetchCities = () => {
-    let apiUrl = 'https://api-turismo-duoc.herokuapp.com/api/ciudades';
-
-    fetch(apiUrl).then(response => {
-        return response.json();
-      }).then(response => {
-        log('fetchCities response', response);
-        
-        this.setState({
-          cities: response.sort((a,b) => a.idCiudad - b.idCiudad)
-        });
-      }).catch(err => {
-        log("fetchCities Error />",err);
-      });
-  };
-
-  getCitiesOptions = () => {
-    return this.state.cities.map((city) => {
-      return <option key={`city-${city.idCiudad}`} value={city.idCiudad}>{city.nombreCiudad}</option>
-    });
   }
 
   getFormValidations = (values) => {
@@ -109,6 +90,15 @@ export default class SignInComponent extends Component {
     });
   }
 
+  displayWrongLoginAlert = () => {
+    this.setState({
+      displayAlert: true,
+      displayAlertTitle: 'Error al iniciar sesión',
+      displayAlertMessage: 'Correo electrónico o contraseña incorrecta.',
+      submitting: false
+    });
+  };
+
   handleSubmit = (values) => {
     this.setState({
       submitting: true
@@ -123,26 +113,36 @@ export default class SignInComponent extends Component {
       'https://api-turismo-duoc.herokuapp.com/api/login',
       {
         method: 'POST',
-        body,
-        headers:{
+        headers: new Headers({
           'Content-Type': 'application/json',
           'Access-Control-Allow-Methods': 'PUT, GET, POST, DELETE, OPTIONS',
           'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-        }
+        }),
+        body: JSON.stringify(body)
       }
-    ).then((response) => {
-      log('handleSubmit', response);
-      this.setState({
-        submitting: false
-      });
+    ).then(response => response.json()
+    ).then(data => {
+      log('handleSubmit', data);
+
+      if (data && data.length > 0) {
+        if(data[0].usuario) {          
+          sessionStorage.setItem('auth', data[0].usuario);
+          this.props.history && this.props.history.push('/home');
+        } else {
+          this.displayWrongLoginAlert();
+        }
+      } else {
+        this.displayWrongLoginAlert();
+      }
+
     }).catch((error) => {
+      log('handleSubmit', error);
       this.setState({
         displayAlert: true,
+        displayAlertTitle: 'Error inesperado',
+        displayAlertMessage: 'Ha ocurrido un error interno, por favor intente nuevamente mas tarde.',
         submitting: false
       });
-      log('handleSubmit', error);
-      sessionStorage.setItem('auth', values.email);
-      this.props.history && this.props.history.push('/home');
     });
   }
 
@@ -171,7 +171,7 @@ export default class SignInComponent extends Component {
         <h3>Inicio de sesión</h3>
         { this.renderForm() }
         <a href="#" className="signUpButton" onClick={this.handleSwitchView}>Registrate</a>
-        { this.state.displayAlert && <AlertComponent level={4} handleHideAlert={this.hideAlert} /> }
+        { this.state.displayAlert && <AlertComponent title={this.state.displayAlertTitle} message={this.state.displayAlertMessage} level={4} handleHideAlert={this.hideAlert} /> }
       </div>
     );
   }

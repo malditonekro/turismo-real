@@ -11,6 +11,10 @@ export default class PlaceListComponent extends Component {
   );
 
   render() {
+    if(!this.props.places || this.props.places.length == 0) {
+      return null;
+    }
+    
     return (
       <div className="placeList row">
         {this.renderPlaceListItems()}
