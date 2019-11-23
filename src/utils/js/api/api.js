@@ -9,7 +9,8 @@ const wsPaths = {
   SIGN_IN: 'https://api-turismo-duoc.herokuapp.com/api/login',
   SIGN_UP: 'https://api-turismo-duoc.herokuapp.com/api/usuario',
   APARTMENT: 'https://api-turismo-duoc.herokuapp.com/api/departamento?departamento=',
-  CITY_SINGLE: 'https://api-turismo-duoc.herokuapp.com/api/ciudad?ciudad='
+  CITY_SINGLE: 'https://api-turismo-duoc.herokuapp.com/api/ciudad?ciudad=',
+  BOOK_PLACE: 'https://api-turismo-duoc.herokuapp.com/api/Reserva'
 };
 
 
@@ -116,6 +117,32 @@ const signUp = async (body) => {
     });
 }
 
+const bookPlace = async (body) => {
+  return await fetch(
+      wsPaths.BOOK_PLACE,
+      {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Methods': 'PUT, GET, POST, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+        }),
+        body: JSON.stringify(body)
+      }
+    ).then(response => response.json()
+    ).then(data => {
+      log('bookPlace', data);
+      if(data && data.mensaje && data.mensaje.toLowerCase() == 'creado') {
+        return 1;
+      }
+      return 1;
+
+    }).catch((error) => {
+      log('bookPlace', error);
+      return 3;
+    });
+}
+
 const fetchApartmentSingle = async (id = 1) => {
   const url = `${wsPaths.APARTMENT}${id}`;
   return await fetch(url)
@@ -149,6 +176,7 @@ const fetchCitySingle = async (id = 1) => {
 };
 
 export default {
+  bookPlace,
   fetchCities,
   fetchApartment,
   fetchApartmentSingle,

@@ -11,8 +11,16 @@ export default class DetailPageItemComponent extends Component {
     this.state = {
       city: 1,
       nombreCity: '',
-      apartment: {}
+      apartment: {},
+      fromUnparsed: '',
+      toUnparsed: '',
+      from: '',
+      to: '',
+      displayError: false
     }
+
+    this.handleFromChange = this.handleFromChange.bind(this);
+    this.handleToChange = this.handleToChange.bind(this);
   }
 
   componentWillMount = () => {
@@ -92,7 +100,98 @@ export default class DetailPageItemComponent extends Component {
     //     );
     //   }
     // }
-  
+
+  handleFromChange = (from) => {
+    const day = from.getDate()
+    const  month = from.getMonth() + 1
+    const year = from.getYear() - 100;
+    let fromParsed = from;
+    fromParsed= `${day<10?`0${day}`:day}-${month<10?`0${month}`:month}-${year}`;
+    this.setState({
+      from: fromParsed,
+      fromUnparsed: from,
+      displayError: false
+    });
+  }
+
+  handleToChange = (to) => {
+    const day = to.getDate()
+    const  month = to.getMonth() + 1
+    const year = to.getYear() - 100;
+    let toParsed = to;
+    toParsed = `${day<10?`0${day}`:day}-${month<10?`0${month}`:month}-${year}`;
+    this.setState({
+      to: toParsed,
+      toUnparsed: to,
+      displayError: false
+    });
+  }
+
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    if(!sessionStorage.getItem('auth')) {
+      window.location.replace('/auth');
+    }
+    if(this.state.toUnparsed - this.state.fromUnparsed < 0) {
+      this.setState({
+        displayError: true
+      });
+
+    } else if (this.state.fromUnparsed && this.state.toUnparsed) {
+      let createdAt = new Date();
+      const day = createdAt.getDate()
+      const  month = createdAt.getMonth() + 1
+      const year = createdAt.getYear() - 100;
+      let createdAtParsed = createdAt;
+      createdAtParsed = `${day<10?`0${day}`:day}-${month<10?`0${month}`:month}-${year}`;
+      const user = JSON.parse(sessionStorage.getItem('auth'));
+      const body = {
+        "activo": 0,
+        "cantidadDias": user.personaDTO.idPersona,
+        "createAt": createdAtParsed,
+        "detalles": [
+          {
+            "activo": 0,
+            "fechaCheckIn": null,
+            "fechaCheckout": null,
+            "idEstadoCheckIn": null,
+            "idEstadoCheckOut": null,
+            "idInsumo": 1,
+            "idReserva": 0,
+            "idReservaDetalle": 0
+          },
+          {
+            "activo": 0,
+            "fechaCheckIn": null,
+            "fechaCheckout": null,
+            "idEstadoCheckIn": null,
+            "idEstadoCheckOut": null,
+            "idInsumo": 1,
+            "idReserva": 0,
+            "idReservaDetalle": 0
+          },
+          {
+            "activo": 0,
+            "fechaCheckIn": null,
+            "fechaCheckout": null,
+            "idEstadoCheckIn": null,
+            "idEstadoCheckOut": null,
+            "idInsumo": 1,
+            "idReserva": 0,
+            "idReservaDetalle": 0
+          }
+        ],
+        "fechaReservaFin": this.state.to,
+        "fechaReservaInicio": this.state.from,
+        "idReserva": 0,
+        "idServicio": this.props.placeId,
+        "idTipoReserva": 1
+      };
+      const response = await api.bookPlace(body);
+      console.log(response);
+    } 
+  };
+
 
   render() {
     const { nombre,direccion,inmobiliaria,observaciones,valorArriendo,fotografias } = this.state.apartment;
@@ -143,11 +242,30 @@ export default class DetailPageItemComponent extends Component {
                               <p>{observaciones}</p>
                           </div>
                           <br/>
+                          <div className="pdpBook">
+                            <div className="bookFrom">
+                              <label>Desde</label>
+                              <Calendar
+                                handleChange={this.handleFromChange}
+                                />
+                            </div>
+
+                            <div className="bookTo">
+                              <label>Hasta</label>
+                              <Calendar
+                                handleChange={this.handleToChange}
+                              />
+                            </div>
+                            {this.state.displayError && <span>Fecha inicial debe ser menor a la final.</span>}
+                          </div>
+                          
+
+                          
                           <div className="price-container">
                                   <h5>Precio</h5>
                                   <h4>{ this.currencyPrice(valorArriendo) }</h4>
                                   <div className="filter-button">
-                                      <a className="btn btn-info btn-lg" href="#" role="button"><i className="fas fa-search-location"></i> &nbsp;&nbsp;&nbsp;Continuar</a>
+                                      <a className="btn btn-info btn-lg" href="#" role="button" onClick={this.handleSubmit}><i className="fas fa-search-location"></i> &nbsp;&nbsp;&nbsp;Continuar</a>
                                   </div>
                             </div>
                         </div>

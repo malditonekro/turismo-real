@@ -49,16 +49,6 @@ export default class FilterComponent extends Component {
     return (touched && error) ? (<div className="inputError">{error}</div>) : null;
   }
 
-  desde(fecha) {
-    console.log('desde ', fecha);
-    return fecha;
-  }
-
-  hasta(fecha) {
-    console.log('hasta ', fecha);
-    return fecha;
-  }
-
   handleFromChange(from) {
     this.setState({
       from
@@ -100,12 +90,10 @@ export default class FilterComponent extends Component {
           </div>
 
          <Calendar
-          desde = {this.desde()}
           handleChange={this.handleFromChange}
           />
 
          <Calendar
-         hasta = {this.hasta()}
          handleChange={this.handleToChange}
          />
          
