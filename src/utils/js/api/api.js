@@ -8,7 +8,8 @@ const wsPaths = {
   COMUNA_BY_CITY: 'https://api-turismo-duoc.herokuapp.com/api/comunaByCiudad?ciudad=',
   SIGN_IN: 'https://api-turismo-duoc.herokuapp.com/api/login',
   SIGN_UP: 'https://api-turismo-duoc.herokuapp.com/api/usuario',
-  APARTMENT: 'https://api-turismo-duoc.herokuapp.com/api/departamento?departamento='
+  APARTMENT: 'https://api-turismo-duoc.herokuapp.com/api/departamento?departamento=',
+  CITY_SINGLE: 'https://api-turismo-duoc.herokuapp.com/api/ciudad?ciudad='
 };
 
 
@@ -124,10 +125,26 @@ const fetchApartmentSingle = async (id = 1) => {
     if(response && response.length > 0) {
       return response[0];
     }
-    return [];
+    return {};
   }).catch(err => {
     log("fetchApartmentSingle Error />",err);
-    return [];
+    return {};
+  });
+};
+
+const fetchCitySingle = async (id = 1) => {
+  const url = `${wsPaths.CITY_SINGLE}${id}`;
+  return await fetch(url)
+  .then(response => response.json())
+  .then(response => {
+    log('fetchCitySingle response', response);
+    if(response && response.length > 0) {
+      return response[0];
+    }
+    return {};
+  }).catch(err => {
+    log("fetchCitySingle Error />",err);
+    return {};
   });
 };
 
@@ -135,6 +152,7 @@ export default {
   fetchCities,
   fetchApartment,
   fetchApartmentSingle,
+  fetchCitySingle,
   fetchComunaByCity,
   signIn,
   signUp
