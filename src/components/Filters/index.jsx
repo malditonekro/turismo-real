@@ -131,7 +131,7 @@ export default class FilterComponent extends Component {
       from: this.state.from,
       to: this.state.to,
     }
-    console.log('caca', val);   
+    console.log('valor', val);   
     this.props.handleParentSubmit(val);
   }
 
