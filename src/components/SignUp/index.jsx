@@ -50,7 +50,7 @@ export default class SignUpComponent extends Component {
     errors.birthdateDay = !values.birthdateDay || !values.birthdateMonth || !values.birthdateYear ? 'Selecciona tu fecha nacimiento' : null;
     errors.nationality = !values.nationality ? 'Selecciona tu nacionalidad' : null;
     errors.address = !values.address ? 'Ingresa tu dirección' : null;
-    errors.identificationNumber = !values.identificationNumber || !values.identificationNumberDv ? 'Ingresar tu número de documento' : null;
+    errors.identificationNumber = !values.identificationNumber || !values.identificationNumberDv ? 'Ingresar tu número de documento' : (values.identificationNumberDv.length > 1 ? 'Ingrese un digito verificar válido' : null);
     errors.phoneNumber = !values.phoneNumber ? 'Ingresar tu número de teléfono' : null;
     errors.email = !values.email ? 'Ingresa tu correo' : null;
     errors.password = !values.password ? 'Ingresa tu contraseña' : null;

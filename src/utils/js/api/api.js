@@ -104,7 +104,7 @@ const signUp = async (body) => {
     ).then(response => response.json()
     ).then(data => {
       log('signUp', data);
-      if(data) {
+      if(data && data.mensaje && data.mensaje.toLowerCase() == 'creado') {
         return 1;
       }
 
