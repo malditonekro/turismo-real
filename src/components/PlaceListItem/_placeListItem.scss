@@ -1,5 +1,5 @@
 .placeListItem {
-  width: 24%;
+  width: 23%;
   display: inline-block;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -40,4 +40,8 @@
       width: 80%;
     }
   }
+}
+
+.placeListItem:hover {
+  box-shadow: 0 0 11px rgba(33,33,33,.2); 
 }

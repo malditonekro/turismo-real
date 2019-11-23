@@ -260,7 +260,7 @@ export default class DetailPageItemComponent extends Component {
                                   <h5 className="bold">Precio</h5>
                                   <h4>{ this.currencyPrice(valorArriendo) }</h4>
                                   <div className="filter-button">
-                                      <a className="btn btn-info btn-lg" href="#" role="button" onClick={this.handleSubmit}><i className="fas fa-search-location"></i> &nbsp;&nbsp;&nbsp;Continuar</a>
+                                      <a className="btn btn-info btn-lg" href="#" role="button" onClick={this.handleSubmit}><i class="fas fa-calendar-check"></i> &nbsp;&nbsp;&nbsp;Reservar</a>
                                   </div>
                           </div>
                           </div>

@@ -33,7 +33,7 @@ export default class HeaderComponent extends Component {
     return (<div className="navButtons">
       { this.getLink('/home', 'Arriendos', 'navButton nav-item nav-link', 'fa fa-home', true) }
       { this.getLink('/tours', 'Tours', 'navButton nav-item nav-link', 'fa fa-map-marked-alt', true) }
-      { this.getLink('/transports', 'Transportes', 'navButton nav-item nav-link', 'fa fa-history', true) }
+      { this.getLink('/transports', 'Transportes', 'navButton nav-item nav-link', 'fa fa-car', true) }
     </div>);
   }
 
