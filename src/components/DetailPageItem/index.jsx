@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { api } from '../../utils/js';
 
 import Calendar  from '../Calendar/Calendar';
+import Swal from 'sweetalert2'
 
 export default class DetailPageItemComponent extends Component {
 
@@ -136,6 +137,10 @@ export default class DetailPageItemComponent extends Component {
       });
 
     } else if (this.state.fromUnparsed && this.state.toUnparsed) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Reserva realizada correctamente',
+      })
       let createdAt = new Date();
       const day = createdAt.getDate()
       const  month = createdAt.getMonth() + 1
