@@ -10,7 +10,8 @@ const wsPaths = {
   SIGN_UP: 'https://api-turismo-duoc.herokuapp.com/api/usuario',
   APARTMENT: 'https://api-turismo-duoc.herokuapp.com/api/departamento?departamento=',
   CITY_SINGLE: 'https://api-turismo-duoc.herokuapp.com/api/ciudad?ciudad=',
-  BOOK_PLACE: 'https://api-turismo-duoc.herokuapp.com/api/Reserva'
+  BOOK_PLACE: 'https://api-turismo-duoc.herokuapp.com/api/Reserva',
+  RESERVAS: 'https://api-turismo-duoc.herokuapp.com/api/reservas'
 };
 
 
@@ -56,6 +57,22 @@ const fetchApartment = async (filters, maxResults) => {
     return apartments;
   }).catch(err => {
     log("fetchApartment Error />",err);
+    return [];
+  });
+};
+
+const fetchReservasByUser = async (userId) => {
+  return await fetch(wsPaths.RESERVAS)
+  .then(response => response.json())
+  .then(response => {
+    log('fetchReservasByUser response', response);
+    let reservas = response;
+    if (userId) {
+      reservas = response.filter((a) => a.cantidadDias == userId);
+    }
+    return reservas;
+  }).catch(err => {
+    log("fetchReservasByUser Error />",err);
     return [];
   });
 };
@@ -182,6 +199,7 @@ export default {
   fetchApartmentSingle,
   fetchCitySingle,
   fetchComunaByCity,
+  fetchReservasByUser,
   signIn,
   signUp
 }
