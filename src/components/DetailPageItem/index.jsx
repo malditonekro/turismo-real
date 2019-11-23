@@ -43,8 +43,6 @@ export default class DetailPageItemComponent extends Component {
   };
 
   currencyPrice(price) {
-    //new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(number2));
-
     const formatter = new Intl.NumberFormat('es-CL', {
       style: 'currency',
       currency: 'CLP',
@@ -57,8 +55,8 @@ export default class DetailPageItemComponent extends Component {
   getImages(fotografias) {
     // let asd = "https://source.unsplash.com/random/?city,night";
       for (let i = 0; i <= 5; i++) {
-        let num = Math.round(Math.random()*(511-500)+parseInt(500));
-        let img = "https://picsum.photos/id/" + num + "/800/800";
+        let num = Math.round(Math.random()*(311-500)+parseInt(500));
+        let img = "https://picsum.photos/id/" + num + "/600/600";
         // let img = "https://source.unsplash.com/random/?city,night";
         return (
           <div className="carousel-item active">
