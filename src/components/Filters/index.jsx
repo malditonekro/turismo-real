@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
 import classNames from 'classnames';
-import { DebugUtil } from '../../utils/js';
+import { api, DebugUtil } from '../../utils/js';
 
 const log = DebugUtil.log.bind(DebugUtil, 'FilterComponent /> ');
 
@@ -15,23 +15,14 @@ export default class FilterComponent extends Component {
   }
 
   componentWillMount = () => {
-    this.fetchCities();
+    this.getCities();
   };
-
-  fetchCities = () => {
-    let apiUrl = 'https://api-turismo-duoc.herokuapp.com/api/ciudades';
-
-    fetch(apiUrl).then(response => {
-        return response.json();
-      }).then(response => {
-        log('fetchCities response', response);
-        
-        this.setState({
-          cities: response.sort((a,b) => a.idCiudad - b.idCiudad)
-        });
-      }).catch(err => {
-        log("fetchCities Error />",err);
-      });
+  
+  getCities = async () => {
+    const cities = await api.fetchCities();
+    this.setState({
+      cities
+    });
   };
 
   getCitiesOptions = () => {
@@ -122,70 +113,8 @@ export default class FilterComponent extends Component {
 }
 
   handleSubmit = (values) => {
-    log('handleSubmit', values);
-    this.setState({
-      submitting: true
-    });
-    setTimeout(()=>{
-      this.setState({
-        submitting: false
-      });
-      const val = [
-        {
-          "idDepartamento": 2,
-          "nombre": "Departamento T2",
-          "direccion": "Lo Cruzar 412",
-          "inmobiliaria": "Pacal",
-          "costoMantencion": 100000,
-          "valorArriendo": 60000,
-          "idUbicacion": 1,
-          "observaciones": "Vista al mar",
-          "activo": 1,
-          "insumos": null,
-          "fotografias": 'https://img-cl-1.trovit.com/10i1n1sQE1Cl/10i1n1sQE1Cl.1_11.jpg'
-        },
-        {
-          "idDepartamento": 3,
-          "nombre": "Departamento T3",
-          "direccion": "Lo Cruzar 420",
-          "inmobiliaria": "Pacal",
-          "costoMantencion": 120000,
-          "valorArriendo": 70000,
-          "idUbicacion": 1,
-          "observaciones": "Vista al mar",
-          "activo": 1,
-          "insumos": null,
-          "fotografias": 'https://www.mercadocasas.cl/wp-content/uploads/2017/03/1ok-1488487361.jpg'
-        },
-        {
-          "idDepartamento": 4,
-          "nombre": "Departamento T3",
-          "direccion": "Lo Cruzar 420",
-          "inmobiliaria": "Pacal",
-          "costoMantencion": 120000,
-          "valorArriendo": 70000,
-          "idUbicacion": 1,
-          "observaciones": "Vista al mar",
-          "activo": 1,
-          "insumos": null,
-          "fotografias": 'https://www.mercadocasas.cl/wp-content/uploads/2017/03/1ok-1488487361.jpg'
-        },
-        {
-          "idDepartamento": 5,
-          "nombre": "Departamento T3",
-          "direccion": "Lo Cruzar 420",
-          "inmobiliaria": "Pacal",
-          "costoMantencion": 120000,
-          "valorArriendo": 70000,
-          "idUbicacion": 1,
-          "observaciones": "Vista al mar",
-          "activo": 1,
-          "insumos": null,
-          "fotografias": 'https://www.mercadocasas.cl/wp-content/uploads/2017/03/1ok-1488487361.jpg'
-        }
-      ];
-      this.props.handleGetPlacesResponse(val);
-    }, 1000);
+    log('handleSubmit', values);    
+    this.props.handleParentSubmit(values);
   }
 
   renderForm = () => (
@@ -214,5 +143,5 @@ export default class FilterComponent extends Component {
 }
 
 FilterComponent.defaultProps = {
-  handleGetPlacesResponse: () => {}
+  handleParentSubmit: () => {}
 };
