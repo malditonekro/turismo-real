@@ -3,6 +3,10 @@
   margin-right: auto;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 .img-tour {
   margin: 30px;
   width: 60%;
@@ -15,25 +19,22 @@
 }
 
 .pdp-container {
-  margin: 30px;
+  margin: 0 30px;
   min-height: 48%;
-  width: 28%;
+  width:40%;
 }
 
 .description-container {
-  height: 30%;
   border-bottom: 1px solid black;
+  margin-bottom: 10px;
 }
 
 .price-container {
   text-align: center;
-  margin-top: 40px;
+  margin: auto;
 }
 
 .pdpBook {
-  margin-top: 40px;
-  margin-bottom: 50px;
-
   label {
     min-width: 100px;
   }
