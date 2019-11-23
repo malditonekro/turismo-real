@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 
 export default class PlaceListToursItemComponent extends Component {
 
+  numero() {
+    return Math.round(Math.random()*(511-500)+parseInt(500));
+  }
+
   render() {
+    let img = "https://picsum.photos/id/"+this.numero()+"/500/500";
     const {
       idTour = '',
       nombre = '',
@@ -17,8 +22,8 @@ export default class PlaceListToursItemComponent extends Component {
     return (
       <div className="card mb-3 tours" key={`tours-${idTour}`}>
         <div className="row">
-          <div className="col-3">
-            <img src="http://static.asiawebdirect.com/m/bangkok/portals/bangkok-com/homepage/tours-top10/pagePropertiesImage/top10-tours-bangkok.jpg.jpg" className="card-img" alt="..." />
+          <div className="imagen col-3">
+            <img src={img} className="card-img" alt="..." />
           </div>
           <div className="col-6">
             <div className="card-body">
@@ -26,14 +31,20 @@ export default class PlaceListToursItemComponent extends Component {
                 { nombre }
               </h2>
               <p className="card-text">
-                {observaciones}
+              { observaciones }
               </p>
             </div>
           </div>
-          <div className="col-3">
-            <p className="card-text">
-                  {observaciones}
+          <div className="col-3 tercer">
+            <h2 className="precioTitulo">
+              Precio por día
+            </h2>
+            <p className="precioDia">
+              ${ valorArriendo }
             </p>
+            <button type="button" className="btn btn-info">
+              Siguiente
+            </button>
           </div>
         </div>
       </div>

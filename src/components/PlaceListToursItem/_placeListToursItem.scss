@@ -1,5 +1,20 @@
 .tours {
   width: 100%;
-  background: white !important;
+  background: honeydew !important;
   margin: 0;
+  .imagen {
+    display: inline-flex;
+    img {
+      width: 100%;
+      padding: 10px;
+    }
+  }
+  .tercer {
+    border-left: 1px solid #d4d4d4;
+    margin: auto;
+    text-align: center;
+    button {
+      width: 60%;
+    }
+  }
 }

@@ -7,7 +7,8 @@ export default class PlaceListToursComponent extends Component {
 
   renderPlaceListToursItems = () => (
     this.props.tours.map((tours, index) => {
-      return <PlaceListToursItemComponent key={`pli-${index}`} tours={tours} />
+      let img = "https://source.unsplash.com/random/300%C3%97300/?landscape";
+      return <PlaceListToursItemComponent key={`pli-${index}`} tours={tours} imgs={img} />
     })
   );
 
