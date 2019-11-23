@@ -63,8 +63,8 @@ export default class DetailPageItemComponent extends Component {
   getImages(fotografias) {
     // let asd = "https://source.unsplash.com/random/?city,night";
       for (let i = 0; i <= 5; i++) {
-        let num = Math.round(Math.random()*(311-500)+parseInt(500));
-        let img = "https://picsum.photos/id/" + num + "/600/600";
+        let num = Math.round(Math.random()*(511-500)+parseInt(500));
+        let img = "https://picsum.photos/id/" + num + "/500/500";
         // let img = "https://source.unsplash.com/random/?city,night";
         return (
           <div className="carousel-item active">
@@ -217,55 +217,53 @@ export default class DetailPageItemComponent extends Component {
                       </div>
                       <div className="pdp-container">
                           <div className="description-container">
-                              <center><h3>{nombre}</h3></center><br/>
+                              <center><h3 className="bold">{nombre}</h3></center><br/>
                               <table className="table table-sm table-hover table-bordered table-striped">
                                 <tbody>
                                   <tr>
-                                    <td>Dirección: </td>
+                                    <td className="bold">Dirección: </td>
                                     <td>{ direccion }</td>
                                   </tr>
                                   <tr>
-                                    <td>Ciudad: </td>
+                                    <td className="bold">Ciudad: </td>
                                     <td>{ this.state.city }</td>
                                   </tr>
                                   <tr>
-                                    <td>Inmobiliaria: </td>
+                                    <td className="bold">Inmobiliaria: </td>
                                     <td>{ inmobiliaria }</td>
                                   </tr>
                                 </tbody>
                               </table>
 
-                              <h4>Detalle</h4>
-                              <br/>
+                              <h4 className="bold">Detalle</h4>
                               <p>{observaciones}</p>
                           </div>
-                          <br/>
-                          <div className="pdpBook">
+                          <div className="row">
+                          <div className="col-6 pdpBook">
                             <div className="bookFrom">
-                              <label>Desde</label>
+                              <label className="bold">Desde</label>
                               <Calendar
                                 handleChange={this.handleFromChange}
                                 />
                             </div>
 
                             <div className="bookTo">
-                              <label>Hasta</label>
+                              <label className="bold">Hasta</label>
                               <Calendar
                                 handleChange={this.handleToChange}
                               />
                             </div>
                             {this.state.displayError && <span>Fecha inicial debe ser menor a la final.</span>}
                           </div>
-                          
 
-                          
-                          <div className="price-container">
-                                  <h5>Precio</h5>
+                          <div className="col-6 price-container">
+                                  <h5 className="bold">Precio</h5>
                                   <h4>{ this.currencyPrice(valorArriendo) }</h4>
                                   <div className="filter-button">
-                                      <a className="btn btn-info btn-lg" href="#" role="button" onClick={this.handleSubmit}><i className="fas fa-search-location"></i> &nbsp;&nbsp;&nbsp;Continuar</a>
+                                      <a className="btn btn-info btn-lg" href="#" role="button" onClick={this.handleSubmit}><i class="fas fa-calendar-check"></i> &nbsp;&nbsp;&nbsp;Reservar</a>
                                   </div>
-                            </div>
+                          </div>
+                          </div>
                         </div>
                     </div>
                 </div>
