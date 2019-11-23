@@ -16,7 +16,7 @@ export default class PlaceListComponent extends Component {
     }
     
     return (
-      <div className="placeList row">
+      <div className="placeList">
         {this.renderPlaceListItems()}
       </div>
     );

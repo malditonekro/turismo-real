@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DebugUtil } from '../../utils/js';
+import { api, DebugUtil } from '../../utils/js';
 import FilterComponent from '../../components/Filters';
 import PayWithFooterComponent from '../../components/PayWithFooter';
 import PlaceListComponent from '../../components/PlaceList';
@@ -14,11 +14,23 @@ export default class HomePage extends Component {
       places: []
     }
 
-    this.handleGetPlacesResponse = this.handleGetPlacesResponse.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleGetPlacesResponse = (places) => {
-    log('handleGetPlacesResponse', places);
+  componentWillMount = () => {
+    this.getInitialApartments(12);
+  };
+
+  getInitialApartments = async (maxPlaces) => {
+    const places = await api.fetchApartment(null, maxPlaces);
+    this.setState({
+      places
+    });
+  };
+
+  handleSubmit = async (filters = {}) => {
+    log('handleSubmit', filters);
+    const places = await api.fetchApartment(filters);
     this.setState({
       places
     });
@@ -27,7 +39,7 @@ export default class HomePage extends Component {
   render() {
     return (
       <div className="homePage">
-        <FilterComponent handleGetPlacesResponse={this.handleGetPlacesResponse} />
+        <FilterComponent handleParentSubmit={this.handleSubmit} />
         <PlaceListComponent places={ this.state.places }/>
         <PayWithFooterComponent />
       </div>
