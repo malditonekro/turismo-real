@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Formik } from 'formik';
 import classNames from 'classnames';
 import { api, DebugUtil } from '../../utils/js';
+import Calendar from '../Calendar/Calendar';
 
 const log = DebugUtil.log.bind(DebugUtil, 'FilterComponent /> ');
 
@@ -10,8 +11,12 @@ export default class FilterComponent extends Component {
     super(props);
     this.state = {
       submitting: false,
-      cities: []
+      cities: [],
+      from: '',
+      to: ''
     }
+    this.handleFromChange = this.handleFromChange.bind(this);
+    this.handleToChange = this.handleToChange.bind(this);
   }
 
   componentWillMount = () => {
@@ -34,14 +39,36 @@ export default class FilterComponent extends Component {
   getFormValidations = (values) => {
     const errors = {};
     errors.destiny = !values.destiny ? 'Debes seleccionar un destino' : null;
-    errors.fromDate = !values.fromDate ? 'Debes seleccionar una fecha de inicio' : null;
-    errors.toDate = !values.toDate ? 'Debes seleccionar una fecha de término' : null;
+    // errors.fromDate = !values.fromDate ? 'Debes seleccionar una fecha de inicio' : null;
+    // errors.toDate = !values.toDate ? 'Debes seleccionar una fecha de término' : null;
     Object.keys(errors).forEach(key => (errors[key] === null) && delete errors[key]);
     return errors;
   };
 
   getErrorMessage = (touched, error) => {
     return (touched && error) ? (<div className="inputError">{error}</div>) : null;
+  }
+
+  desde(fecha) {
+    console.log('desde ', fecha);
+    return fecha;
+  }
+
+  hasta(fecha) {
+    console.log('hasta ', fecha);
+    return fecha;
+  }
+
+  handleFromChange(from) {
+    this.setState({
+      from
+    });
+  }
+
+  handleToChange(to) {
+    this.setState({
+      to
+    });
   }
 
   getForm = ({
@@ -72,31 +99,16 @@ export default class FilterComponent extends Component {
             {this.getErrorMessage(touched.destiny, errors.destiny)}
           </div>
 
-          <div className="fromDate filterFieldDiv">
-            <label htmlFor="fromDate">Desde</label>            
-            <input 
-              type="text"
-              className="form-control"
-              name="fromDate"
-              id="fromDate"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.fromDate} />
-              {this.getErrorMessage(touched.fromDate, errors.fromDate)}
-          </div>
+         <Calendar
+          desde = {this.desde()}
+          handleChange={this.handleFromChange}
+          />
 
-          <div className="toDate filterFieldDiv">
-            <label htmlFor="toDate">Hasta</label>
-            <input 
-              type="text"
-              className="form-control"
-              name="toDate"
-              id="toDate"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.toDate} />
-              {this.getErrorMessage(touched.toDate, errors.toDate)}
-          </div>
+         <Calendar
+         hasta = {this.hasta()}
+         handleChange={this.handleToChange}
+         />
+         
 
           <div className="roomSize filterFieldDiv">
             <label htmlFor="roomSize">Habitaciones</label>
@@ -113,8 +125,14 @@ export default class FilterComponent extends Component {
 }
 
   handleSubmit = (values) => {
-    log('handleSubmit', values);    
-    this.props.handleParentSubmit(values);
+    log('handleSubmit', values); 
+    const val = {
+      ...values,
+      from: this.state.from,
+      to: this.state.to,
+    }
+    console.log('caca', val);   
+    this.props.handleParentSubmit(val);
   }
 
   renderForm = () => (

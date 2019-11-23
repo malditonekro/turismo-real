@@ -39,7 +39,6 @@ export default class PlaceListItemComponent extends Component {
           </NavLink>
         </div>
         <div>
-          <Calendar />
         </div>
       </div>
     );

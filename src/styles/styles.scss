@@ -31,4 +31,14 @@ body {
   background-image: url(https://www.olympicpalacehotel.com/_storageWeb_/n/17786419220595/b/692033667068/Double-room-sea-view-balcony.jpeg);
   background-size: cover;
   background-repeat: no-repeat;
+
+  .react-datepicker-wrapper {
+    align-self: flex-end;
+    margin-left: 5px;
+    margin-right: 5px;
+    input {
+      padding: 5px;
+    }
+  }
+
 }

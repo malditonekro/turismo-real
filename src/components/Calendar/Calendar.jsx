@@ -8,6 +8,7 @@ import { addDays, subDays } from 'date-fns';
 // https://reactdatepicker.com/#example-no-anchor-arrow
 
 class Calendar extends Component {
+
     state = {
       startDate: new Date()
     };
@@ -16,6 +17,7 @@ class Calendar extends Component {
       this.setState({
         startDate: date
       });
+      this.props.handleChange(date);
     };
 
     exluir = [
@@ -33,8 +35,6 @@ class Calendar extends Component {
     ]
 
     render() {
-      var CurrentDate = new Date();
-      console.log("Current date:", CurrentDate);
 
           const exclude =  [
             subDays(new Date(), 4),
@@ -45,13 +45,17 @@ class Calendar extends Component {
             addDays(new Date(), 12),
           ]
 
-          console.log(exclude);
+          const onSelect = value => {
+            console.log('value ', value);
+          };
 
       return (
         <DatePicker
           selected={this.state.startDate}
           onChange={this.handleChange}
+          minDate={subDays(new Date(), 0)}
           excludeDates={exclude}
+          onSelect={event => onSelect(event)}
         />
       );
     }
