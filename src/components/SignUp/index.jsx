@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
 import classNames from 'classnames';
-import { DebugUtil } from '../../utils/js';
+import { api, DebugUtil } from '../../utils/js';
+import AlertComponent from '../Alert';
 
 const log = DebugUtil.log.bind(DebugUtil, 'SignUpComponent /> ');
 
@@ -9,8 +10,13 @@ export default class SignUpComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      displayAlert: false,
+      displayAlertTitle: '',
+      displayAlertMessage: '',
+      displayAlertLevel: 4,
       submitting: false
     }
+    this.hideAlert = this.hideAlert.bind(this);
   }
 
   fetchCities = () => {
@@ -37,13 +43,14 @@ export default class SignUpComponent extends Component {
 
   getFormValidations = (values) => {
     const errors = {};
+    errors.username = !values.username ? 'Ingresar tu nombre de usuario' : null;
     errors.name = !values.name ? 'Ingresar tu nombre' : null;
-    errors.fatherLastName = !values.fatherLastName ? 'Ingresar tu apellido paterno' : null;
-    errors.motherLastName = !values.motherLastName ? 'Ingresar tu apellido materno' : null;
+    errors.lastname = !values.lastname ? 'Ingresar tu apellido' : null;
     errors.gender = !values.gender ? 'Selecciona tu género' : null;
     errors.birthdateDay = !values.birthdateDay || !values.birthdateMonth || !values.birthdateYear ? 'Selecciona tu fecha nacimiento' : null;
-    errors.nationality = !values.nationality ? 'Selecciona tu nacionaliddaad' : null;
-    errors.identificationNumber = !values.identificationNumber ? 'Ingresar tu número de documento' : null;
+    errors.nationality = !values.nationality ? 'Selecciona tu nacionalidad' : null;
+    errors.address = !values.address ? 'Ingresa tu dirección' : null;
+    errors.identificationNumber = !values.identificationNumber || !values.identificationNumberDv ? 'Ingresar tu número de documento' : null;
     errors.phoneNumber = !values.phoneNumber ? 'Ingresar tu número de teléfono' : null;
     errors.email = !values.email ? 'Ingresa tu correo' : null;
     errors.password = !values.password ? 'Ingresa tu contraseña' : null;
@@ -114,6 +121,20 @@ export default class SignUpComponent extends Component {
     return (
       <form onSubmit={handleSubmit}>
         <div className="signUpForm">
+          <div className="username signUpFieldDiv">
+            <label htmlFor="username">Nombre de usuario</label>
+            <div className="input">
+              <input 
+                type="text"
+                className="form-control"
+                name="username"
+                id="username"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.username} />
+              {this.getErrorMessage(touched.username, errors.username)}
+            </div>         
+          </div>
           <div className="name signUpFieldDiv">
             <label htmlFor="name">Nombre</label>
             <div className="input">
@@ -128,32 +149,18 @@ export default class SignUpComponent extends Component {
               {this.getErrorMessage(touched.name, errors.name)}
             </div>         
           </div>
-          <div className="fatherLastName signUpFieldDiv">
-            <label htmlFor="fatherLastName">Apellido Paterno</label>
+          <div className="lastname signUpFieldDiv">
+            <label htmlFor="lastname">Apellido</label>
             <div className="input">            
               <input 
                 type="text"
                 className="form-control"
-                name="fatherLastName"
-                id="fatherLastName"
+                name="lastname"
+                id="lastname"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.fatherLastName} />
-              {this.getErrorMessage(touched.fatherLastName, errors.fatherLastName)}
-            </div>
-          </div>
-          <div className="motherLastName signUpFieldDiv">
-            <label htmlFor="motherLastName">Apellido Materno</label>
-            <div className="input">            
-              <input 
-                type="text"
-                className="form-control"
-                name="motherLastName"
-                id="motherLastName"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.motherLastName} />
-              {this.getErrorMessage(touched.motherLastName, errors.motherLastName)}
+                value={values.lastname} />
+              {this.getErrorMessage(touched.lastname, errors.lastname)}
             </div>
           </div>
           <div className="gender signUpFieldDiv">
@@ -207,7 +214,29 @@ export default class SignUpComponent extends Component {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.identificationNumber} />
+              <input 
+                type="text"
+                className="form-control"
+                name="identificationNumberDv"
+                id="identificationNumberDv"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.identificationNumberDv} />
               {this.getErrorMessage(touched.identificationNumber, errors.identificationNumber)}
+            </div>
+          </div>
+          <div className="address signUpFieldDiv">
+            <label htmlFor="address">Dirección</label>
+            <div className="input">            
+              <input 
+                type="text"
+                className="form-control"
+                name="address"
+                id="address"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.address} />
+              {this.getErrorMessage(touched.address, errors.address)}
             </div>
           </div>
           <div className="phoneNumber signUpFieldDiv">
@@ -272,17 +301,48 @@ export default class SignUpComponent extends Component {
     );
 }
 
-  handleSubmit = (values) => {
+  handleSubmit = async (values) => {
     this.setState({
       submitting: true
     });
-    setTimeout(()=>{
-      
-      this.setState({
-        submitting: false
-      });
-      log('handleSubmit', values);
-    }, 2000);
+
+    const body = {
+      idUsuario: 0,
+      personaVM: {
+        idPersona: 0,
+        ide: values.identificationNumber,
+        ide_dv: values.identificationNumberDv,
+        nombre: values.name,
+        apellido: values.lastname,
+        idTipoPersona: 1,
+        direccion: values.address,
+        idUbicacion: 1,
+        telefono: values.phoneNumber,
+        activo: 1
+      },
+      usuario: values.username,
+      password: values.password,
+      correo: values.email,
+      activo: 1
+    };
+    
+    const signUpResponse = await api.signUp(body);
+    console.log(signUpResponse);
+    switch (signUpResponse) {
+      case 1:
+        this.displaySuccessRegisterAlert()
+        break;
+      case 3:    
+      default:
+        this.setState({
+          displayAlert: true,
+          displayAlertTitle: 'Error inesperado',
+          displayAlertMessage: 'Ha ocurrido un error interno, por favor intente nuevamente mas tarde.',
+          displayAlertLevel: 4,
+          submitting: false
+        });
+        break;
+    }
   }
 
   handleSwitchView = (event) => {
@@ -290,22 +350,48 @@ export default class SignUpComponent extends Component {
     this.props.switchView();
   }
 
+  handleSwitchView = (event) => {
+    event.preventDefault();
+    this.props.switchView();
+  }
+
+  hideAlert = () => {
+    this.setState({
+      displayAlert: false
+    });
+  }
+
+  displaySuccessRegisterAlert = () => {
+    this.setState({
+      displayAlert: true,
+      displayAlertTitle: 'Enhorabuena',
+      displayAlertMessage: 'Usuario registrado correctamente. Redigiriendo...',
+      displayAlertLevel: 1,
+      submitting: false
+    });
+    setTimeout(()=>{
+      this.props.history && this.props.history.push('/home');
+    },3000);
+  };
+
   renderForm = () => (
     <Formik
       initialValues={{
+        username: '',
         name: '',
-        motherLastName: '',
-        fatherLastName: '',
+        lastname: '',
         email: '',
         password: '',
         passwordConfirmation: '',
         nationality: '',
+        address: '',
         identificationNumber: '',
         gender: null,
         birthdateDay: '',
         birthdateMonth: '',
         birthdateYear: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        identificationNumberDv: ''
       }}
       validate={this.getFormValidations}
       render={props => this.getForm({ ...props })}
@@ -321,6 +407,7 @@ export default class SignUpComponent extends Component {
         <h3>Registro de usuario</h3>
         { this.renderForm() }
         <a href="#" className="signInButton" onClick={this.handleSwitchView}>Iniciar Sesión</a>
+        { this.state.displayAlert && <AlertComponent title={this.state.displayAlertTitle} message={this.state.displayAlertMessage} level={this.state.displayAlertLevel} handleHideAlert={this.hideAlert} /> }
       </div>
     );
   }

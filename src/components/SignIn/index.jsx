@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
 import classNames from 'classnames';
-import { DebugUtil } from '../../utils/js';
+import { api, DebugUtil } from '../../utils/js';
 import AlertComponent from '../Alert';
-import { declareExportDeclaration, declareExportAllDeclaration } from '@babel/types';
 
 const log = DebugUtil.log.bind(DebugUtil, 'SignInComponent /> ');
 
@@ -99,7 +98,7 @@ export default class SignInComponent extends Component {
     });
   };
 
-  handleSubmit = (values) => {
+  handleSubmit = async (values) => {
     this.setState({
       submitting: true
     });
@@ -109,41 +108,30 @@ export default class SignInComponent extends Component {
       pass: values.password
     }
 
-    fetch(
-      'https://api-turismo-duoc.herokuapp.com/api/login',
-      {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Methods': 'PUT, GET, POST, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-        }),
-        body: JSON.stringify(body)
-      }
-    ).then(response => response.json()
-    ).then(data => {
-      log('handleSubmit', data);
-
-      if (data && data.length > 0) {
-        if(data[0].usuario) {          
-          sessionStorage.setItem('auth', data[0].usuario);
-          this.props.history && this.props.history.push('/home');
-        } else {
-          this.displayWrongLoginAlert();
-        }
-      } else {
+    const signInResponse = await api.signIn(body);
+    switch (signInResponse) {
+      case 1:
+        this.props.history && this.props.history.push('/home');
+        this.setState({
+          submitting: false
+        });
+        break;
+      case 2:
         this.displayWrongLoginAlert();
-      }
-
-    }).catch((error) => {
-      log('handleSubmit', error);
-      this.setState({
-        displayAlert: true,
-        displayAlertTitle: 'Error inesperado',
-        displayAlertMessage: 'Ha ocurrido un error interno, por favor intente nuevamente mas tarde.',
-        submitting: false
-      });
-    });
+        this.setState({
+          submitting: false
+        });
+        break;
+      case 3:    
+      default:
+        this.setState({
+          displayAlert: true,
+          displayAlertTitle: 'Error inesperado',
+          displayAlertMessage: 'Ha ocurrido un error interno, por favor intente nuevamente mas tarde.',
+          submitting: false
+        });
+        break;
+    }
   }
 
   handleSwitchView = (event) => {

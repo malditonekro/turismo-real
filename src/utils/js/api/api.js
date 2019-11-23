@@ -5,7 +5,9 @@ const log = DebugUtil.log.bind(DebugUtil, 'Api Web Services Call />');
 const wsPaths = {
   CITIES: 'https://api-turismo-duoc.herokuapp.com/api/ciudades',
   APARTMENT: 'https://api-turismo-duoc.herokuapp.com/api/departamentos',
-  COMUNA_BY_CITY: 'https://api-turismo-duoc.herokuapp.com/api/comunaByCiudad?ciudad='
+  COMUNA_BY_CITY: 'https://api-turismo-duoc.herokuapp.com/api/comunaByCiudad?ciudad=',
+  SIGN_IN: 'https://api-turismo-duoc.herokuapp.com/api/login',
+  SIGN_UP: 'https://api-turismo-duoc.herokuapp.com/api/usuario'
 };
 
 
@@ -55,8 +57,67 @@ const fetchApartment = async (filters, maxResults) => {
   });
 };
 
+const signIn = async (body) => {
+  return await fetch(
+      wsPaths.SIGN_IN,
+      {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Methods': 'PUT, GET, POST, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+        }),
+        body: JSON.stringify(body)
+      }
+    ).then(response => response.json()
+    ).then(data => {
+      log('signIn', data);
+      if (data && data.length > 0) {
+        if(data[0].usuario) {          
+          sessionStorage.setItem('auth', JSON.stringify(data[0]));
+          return 1; // Login successfull
+        } else {
+          return 2; // Error while login
+        }
+      } else {
+        return 2; // Error while login
+      }
+
+    }).catch((error) => {
+      log('signIn', error);
+      return 3; // server error
+    });
+}
+
+const signUp = async (body) => {
+  return await fetch(
+      wsPaths.SIGN_UP,
+      {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Methods': 'PUT, GET, POST, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+        }),
+        body: JSON.stringify(body)
+      }
+    ).then(response => response.json()
+    ).then(data => {
+      log('signUp', data);
+      if(data) {
+        return 1;
+      }
+
+    }).catch((error) => {
+      log('signUp', error);
+      return 3;
+    });
+}
+
 export default {
   fetchCities,
   fetchApartment,
-  fetchComunaByCity
+  fetchComunaByCity,
+  signIn,
+  signUp
 }

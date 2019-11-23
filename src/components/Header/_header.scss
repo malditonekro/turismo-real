@@ -35,10 +35,19 @@
     margin-left: 20px;
   }
 
+  .userName {
+    margin-left: 15px;
+    color: white;
+  }
+
   .unlogButton {
     color: white;
-    margin-left: 15px;
     text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
 
   .leftButton {

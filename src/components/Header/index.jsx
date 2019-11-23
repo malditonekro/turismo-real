@@ -51,9 +51,14 @@ export default class HeaderComponent extends Component {
     }
   };
 
-  getUnlogButton = () => (
-    <a href="#" onClick={this.unlog} className="unlogButton ">Cerrar sesión</a>
-  );
+  getUnlogButton = () => {
+    const user = JSON.parse(sessionStorage.getItem('auth')) || { personaDTO: { nombre: '' } };
+    return (
+      <span className="userName">
+      {user.personaDTO.nombre}, <a href="#" onClick={this.unlog} className="unlogButton ">Cerrar sesión</a>
+      </span>
+    );
+  };
 
   renderLeftButtons = () => {
     return (<div className="leftButtons">
