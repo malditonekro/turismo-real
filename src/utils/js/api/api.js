@@ -4,10 +4,11 @@ const log = DebugUtil.log.bind(DebugUtil, 'Api Web Services Call />');
 
 const wsPaths = {
   CITIES: 'https://api-turismo-duoc.herokuapp.com/api/ciudades',
-  APARTMENT: 'https://api-turismo-duoc.herokuapp.com/api/departamentos',
+  APARTMENTS: 'https://api-turismo-duoc.herokuapp.com/api/departamentos',
   COMUNA_BY_CITY: 'https://api-turismo-duoc.herokuapp.com/api/comunaByCiudad?ciudad=',
   SIGN_IN: 'https://api-turismo-duoc.herokuapp.com/api/login',
-  SIGN_UP: 'https://api-turismo-duoc.herokuapp.com/api/usuario'
+  SIGN_UP: 'https://api-turismo-duoc.herokuapp.com/api/usuario',
+  APARTMENT: 'https://api-turismo-duoc.herokuapp.com/api/departamento?departamento='
 };
 
 
@@ -37,7 +38,7 @@ const fetchComunaByCity = async (city = 1) => {
 };
 
 const fetchApartment = async (filters, maxResults) => {
-  return await fetch(wsPaths.APARTMENT)
+  return await fetch(wsPaths.APARTMENTS)
   .then(response => response.json())
   .then(response => {
     log('fetchApartment response', response);
@@ -114,9 +115,26 @@ const signUp = async (body) => {
     });
 }
 
+const fetchApartmentSingle = async (id = 1) => {
+  const url = `${wsPaths.APARTMENT}${id}`;
+  return await fetch(url)
+  .then(response => response.json())
+  .then(response => {
+    log('fetchApartmentSingle response', response);
+    if(response && response.length > 0) {
+      return response[0];
+    }
+    return [];
+  }).catch(err => {
+    log("fetchApartmentSingle Error />",err);
+    return [];
+  });
+};
+
 export default {
   fetchCities,
   fetchApartment,
+  fetchApartmentSingle,
   fetchComunaByCity,
   signIn,
   signUp

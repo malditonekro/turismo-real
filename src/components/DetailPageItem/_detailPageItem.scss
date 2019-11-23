@@ -1,0 +1,30 @@
+.detail-product {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.img-tour {
+  margin: 30px;
+  width: 60%;
+  height: auto;
+}
+
+.img-tour:hover {
+  box-shadow: 0 0 11px rgba(33,33,33,.2); 
+}
+
+.pdp-container {
+  margin: 30px;
+  min-height: 48%;
+  width: 30%;
+}
+
+.description-container {
+  height: 30%;
+  border-bottom: 1px solid black;
+}
+
+.price-container {
+  text-align: center;
+  margin-top: 40px;
+}
